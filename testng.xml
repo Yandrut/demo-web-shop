@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Practice">
+    <test name="DemoWebShop">
+        <classes>
+            <class name="org.yandrut.DemoWebTesting">
+                <methods>
+                    <include name="allowsLoginUser"/>
+                    <include name="allowsRegisterUser"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+</suite>
