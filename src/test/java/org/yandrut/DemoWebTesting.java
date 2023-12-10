@@ -1,10 +1,15 @@
 package org.yandrut;
 
+import org.openqa.selenium.WebElement;
 import org.testng.annotations.Test;
 import selenium.DriverProvider;
 import selenium.pages.HomePage;
 import selenium.RandomEmailGenerator;
 
+import java.util.Arrays;
+import java.util.List;
+
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 public class DemoWebTesting extends BaseTest {
@@ -47,17 +52,37 @@ public class DemoWebTesting extends BaseTest {
     @Test
     public void computerGroupHas3SubGroups() {
         HomePage page = new HomePage(DriverProvider.getInstance());
-        page.getComputersList();
+        page.hoverOverComputersSection();
+        List<String> expected = Arrays.asList("Desktops", "Notebooks", "Accessories");
+        List<WebElement> computersList = page.getComputersList();
+        List <String> actual = page.getComputersListTextValues(computersList);
+        assertEquals(expected,actual);
     }
 
     @Test
     public void allowsSortingItems() {
-
+        HomePage page = new HomePage(DriverProvider.getInstance());
+        String sortBy = "Price: High to Low";
+        page.hoverOverComputersSection();
+        page.switchToDesktopsSection();
+        page.clickOnSortingOptions();
+        page.selectSortingOption(sortBy);
+        boolean areItemsSorted = page.areItemsSorted(sortBy, page.getProductValues("prices"),
+                "Sorting by product prices");
+        assertTrue(areItemsSorted);
     }
 
     @Test
     public void allowsChangingNumberOfItemsOnPage() {
-
+        // not done
+        HomePage page = new HomePage(DriverProvider.getInstance());
+        page.hoverOverComputersSection();
+        page.switchToDesktopsSection();
+        page.clickOnDisplayElementsPerPage();
+        List<WebElement> elementsPerPageOptions = page.getElementsPerPageOptions();
+        page.setNumberOfItemsOnPage("4", elementsPerPageOptions);
+        boolean numberOfElementsMatches = page.numberOfElementsOnPageMatches(4, page.getProductValues("names"));
+        assertTrue(numberOfElementsMatches);
     }
 
     @Test
