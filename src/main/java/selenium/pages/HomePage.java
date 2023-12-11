@@ -38,9 +38,19 @@ public class HomePage {
    private final By SORT_FROM_HIGH_TO_LOW = By.xpath("//option[text()='Price: High to Low']");
    private final By SORT_FROM_A_TO_Z = By.xpath("//option[text()='Name: A to Z']");
    private final By PRODUCT_PRICES_LIST = By.xpath("//span[@class='price actual-price']");
-   private final By PRODUCT_NAMES_LIST = By.xpath("//div/h2/a");
-   private final By PRODUCT_QUANTITY_SELECTOR = By.id("products-pagesize");
-   private final By ELEMENTS_PER_PAGE_OPTIONS = By.xpath("//option[contains(@value, 'pagesize')]");
+   private final By PRODUCTS_LIST = By.xpath("//div/h2/a");
+   private final By DISPLAY_OPTIONS_SELECTOR = By.id("products-pagesize");
+   private final By DISPLAY_OPTIONS = By.xpath("//option[contains(@value, 'pagesize')]");
+   private final By APPAREL_AND_SHOES_SECTION = By.xpath("//a[@href='/apparel-shoes']");
+   private final By ADD_TO_WISHLIST_BUTTON = By.id("add-to-wishlist-button-5");
+   private final By SUCCESSFUL_ACTION_BANNER = By.xpath("//div[@class='bar-notification success']");
+   private final By ADD_TO_CART_BUTTON = By.id("add-to-cart-button-5");
+   private final By CART_SECTION = By.xpath("//a[@class='ico-cart']");
+   private final By REMOVE_FROM_CART = By.xpath("//input[@name='removefromcart']");
+   private final By UPDATE_SHOPPING_CART = By.xpath("//input[@class='button-2 update-cart-button']");
+   private final By CART_QUANTITY = By.cssSelector("span.cart-qty");
+   private final By TERMS_OF_SERVICE = By.id("termsofservice");
+   private final By CHECKOUT_BUTTON = By.id("checkout");
 
 
 
@@ -178,7 +188,7 @@ public class HomePage {
         }
 
         else if (pricesOrNames.equalsIgnoreCase("names")) {
-            return driver.findElements(PRODUCT_NAMES_LIST)
+            return driver.findElements(PRODUCTS_LIST)
                     .stream()
                     .map(WebElement::getText)
                     .collect(Collectors.toList());
@@ -230,28 +240,103 @@ public class HomePage {
         }
     }
 
-    public void clickOnDisplayElementsPerPage() {
-        logger.info("Click on display elements per page");
-        driver.findElement(PRODUCT_QUANTITY_SELECTOR).click();
+    public void clickOnDisplayOptionsSelector() {
+        logger.info("Click on display options selector");
+        driver.findElement(DISPLAY_OPTIONS_SELECTOR).click();
     }
 
-    public List<WebElement> getElementsPerPageOptions() {
-        logger.info("Get elements per page options");
-        return driver.findElements(ELEMENTS_PER_PAGE_OPTIONS);
+    public List<WebElement> getDisplayOptions() {
+        logger.info("Get display options");
+        return driver.findElements(DISPLAY_OPTIONS);
     }
 
-    public void setNumberOfItemsOnPage(String elementsPerPage, List<WebElement> elementsPerPageOptions) {
+    public void setNumberOfItemsOnPage(int elementsPerPage, List<WebElement> displayOptions) {
         logger.info("Set number of items on page: " + elementsPerPage);
-        for (WebElement option : elementsPerPageOptions) {
-            if (option.getText().equals(elementsPerPage)) {
+
+        for (WebElement option : displayOptions) {
+            int optionValue = Integer.parseInt(option.getText());
+            if (optionValue == elementsPerPage) {
                 option.click();
+                return;
             } else {
                 throw new RuntimeException("Invalid number of elements");
             }
         }
     }
 
-    public boolean numberOfElementsOnPageMatches(int elementsPerPage, List<String> elements) {
+    public boolean numberOfItemsOnPageMatches(int elementsPerPage, List<String> elements) {
+        logger.info("Number of items on page matches");
         return elementsPerPage == elements.size();
+    }
+
+    public void moveToApparelAndShoesSection() {
+        logger.info("Move to apparel and shoes section");
+        driver.findElement(APPAREL_AND_SHOES_SECTION).click();
+    }
+
+    public void clickOnProduct(String productName) {
+        logger.info("Click on product");
+        List<WebElement> products = driver.findElements(PRODUCTS_LIST);
+
+        for (WebElement product : products) {
+            if (product.getText().equalsIgnoreCase(productName)) {
+                product.click();
+                return;
+            }
+        }
+        throw new RuntimeException("Invalid product name");
+    }
+
+    public void addProductToWishlist() {
+        logger.info("Add product to wishlist");
+        driver.findElement(ADD_TO_WISHLIST_BUTTON).click();
+    }
+
+    public boolean isActionSuccessful() {
+        logger.info("Is action successful");
+        String styleAttributeValue = driver.findElement(SUCCESSFUL_ACTION_BANNER).getAttribute("style");
+        return !(styleAttributeValue.equals("display: none;"));
+    }
+
+    public void addProductToCart() {
+        logger.info("Add product to cart");
+        driver.findElement(ADD_TO_CART_BUTTON).click();
+    }
+
+    public void moveToCart() {
+        logger.info("Move to cart");
+        driver.findElement(CART_SECTION).click();
+    }
+
+    public void removeProductFromCart() {
+        logger.info("Remove product from cart");
+        driver.findElement(REMOVE_FROM_CART).click();
+    }
+
+    public void clickOnUpdateShoppingCart() {
+        logger.info("Click on update shopping cart");
+        driver.findElement(UPDATE_SHOPPING_CART).click();
+    }
+
+    public boolean isCardEmpty() {
+        logger.info("Is card empty");
+        String cartQuantity = driver.findElement(CART_QUANTITY).getText();
+        return (cartQuantity.equals("(0)"));
+    }
+
+    public void agreeWithTermsOfService() {
+
+        logger.info("Agree with terms of service");
+        driver.findElement(TERMS_OF_SERVICE).click();
+    }
+
+    public void clickOnCheckoutButton() {
+        logger.info("Click on checkout button");
+        driver.findElement(CHECKOUT_BUTTON).click();
+    }
+
+    public String getTitle() {
+        logger.info("Get title");
+        return driver.getTitle();
     }
 }

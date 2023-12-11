@@ -78,30 +78,57 @@ public class DemoWebTesting extends BaseTest {
         HomePage page = new HomePage(DriverProvider.getInstance());
         page.hoverOverComputersSection();
         page.switchToDesktopsSection();
-        page.clickOnDisplayElementsPerPage();
-        List<WebElement> elementsPerPageOptions = page.getElementsPerPageOptions();
-        page.setNumberOfItemsOnPage("4", elementsPerPageOptions);
-        boolean numberOfElementsMatches = page.numberOfElementsOnPageMatches(4, page.getProductValues("names"));
+        page.clickOnDisplayOptionsSelector();
+        List<WebElement> elementsPerPageOptions = page.getDisplayOptions();
+        page.setNumberOfItemsOnPage(4, elementsPerPageOptions);
+        boolean numberOfElementsMatches = page.numberOfItemsOnPageMatches(4, page.getProductValues("names"));
         assertTrue(numberOfElementsMatches);
     }
 
     @Test
     public void allowsAddingItemsToWishlist() {
-
+        HomePage page = new HomePage(DriverProvider.getInstance());
+        page.moveToApparelAndShoesSection();
+        page.clickOnProduct("50's Rockabilly Polka Dot Top JR Plus Size");
+        page.addProductToWishlist();
+        boolean isActionSuccessful = page.isActionSuccessful();
+        assertTrue(isActionSuccessful);
     }
 
     @Test
     public void allowsAddingItemsToCard() {
-
+        HomePage page = new HomePage(DriverProvider.getInstance());
+        page.moveToApparelAndShoesSection();
+        page.clickOnProduct("50's Rockabilly Polka Dot Top JR Plus Size");
+        page.addProductToCart();
+        boolean isActionSuccessful = page.isActionSuccessful();
+        assertTrue(isActionSuccessful);
     }
 
     @Test
     public void allowsRemovingItemsFromCard() {
-
+        HomePage page = new HomePage(DriverProvider.getInstance());
+        page.moveToApparelAndShoesSection();
+        page.clickOnProduct("50's Rockabilly Polka Dot Top JR Plus Size");
+        page.addProductToCart();
+        page.moveToCart();
+        page.removeProductFromCart();
+        page.clickOnUpdateShoppingCart();
+        boolean isCardEmpty = page.isCardEmpty();
+        assertTrue(isCardEmpty);
     }
 
     @Test
     public void allowsCheckoutItems() {
-
+        HomePage page = new HomePage(DriverProvider.getInstance());
+        page.moveToApparelAndShoesSection();
+        page.clickOnProduct("50's Rockabilly Polka Dot Top JR Plus Size");
+        page.addProductToCart();
+        page.moveToCart();
+        page.agreeWithTermsOfService();
+        page.clickOnCheckoutButton();
+        String expected = "Demo Web Shop. Login";
+        String actual = page.getTitle();
+        assertEquals(expected, actual);
     }
 }

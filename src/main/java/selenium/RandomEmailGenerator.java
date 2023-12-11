@@ -18,7 +18,7 @@ public class RandomEmailGenerator {
     }
 
     public void openURL(String urlToEmailService) {
-        logger.info("Open URL" + urlToEmailService);
+        logger.info("Open URL: " + urlToEmailService);
         driver.get(urlToEmailService);
     }
 
