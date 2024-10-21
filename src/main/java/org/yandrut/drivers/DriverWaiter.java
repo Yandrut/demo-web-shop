@@ -1,4 +1,4 @@
-package selenium;
+package org.yandrut.drivers;
 
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;

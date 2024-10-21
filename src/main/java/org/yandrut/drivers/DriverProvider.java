@@ -1,4 +1,4 @@
-package selenium;
+package org.yandrut.drivers;
 
 import org.openqa.selenium.WebDriver;
 import java.util.Objects;
