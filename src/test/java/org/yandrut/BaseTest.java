@@ -1,19 +1,18 @@
 package org.yandrut;
 
+import org.junit.jupiter.api.AfterEach;
 import org.openqa.selenium.WebDriver;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeMethod;
-import selenium.DriverProvider;
+import org.yandrut.drivers.DriverProvider;
 
 public class BaseTest {
 
-    @BeforeMethod
+    @BeforeEach
     public void openBrowser() {
         WebDriver driver = DriverProvider.getInstance();
         driver.get("https://demowebshop.tricentis.com/");
     }
 
-    @AfterMethod
+    @AfterEach
     public void quitBrowser() {
         DriverProvider.quit();
     }

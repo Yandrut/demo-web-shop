@@ -7,6 +7,14 @@
                 <methods>
                     <include name="allowsLoginUser"/>
                     <include name="allowsRegisterUser"/>
+                    <include name="computerGroupHas3SubGroups"/>
+                    <include name="allowsSortingItems"/>
+                    <include name="allowsChangingNumberOfItemsOnPage"/>
+                    <include name="allowsAddingItemsToWishlist"/>
+                    <include name="allowsAddingItemsToCard"/>
+                    <include name="allowsRemovingItemsFromCard"/>
+                    <include name="allowsRemovingItemsFromCard"/>
+                    <include name="allowsCheckoutItems"/>
                 </methods>
             </class>
         </classes>
