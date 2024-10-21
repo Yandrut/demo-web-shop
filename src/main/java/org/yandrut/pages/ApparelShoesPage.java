@@ -13,8 +13,6 @@ public class ApparelShoesPage {
     private final WebDriver driver;
     private static final Logger logger = LogManager.getLogger(ApparelShoesPage.class);
 
-    @FindBy(xpath = "//span[@class='price actual-price']")
-    private List<WebElement> productPricesList;
     @FindBy(xpath = "//div/h2/a")
     private List<WebElement> productsList;
     @FindBy(id = "add-to-wishlist-button-5")
